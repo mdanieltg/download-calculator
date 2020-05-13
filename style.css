@@ -1,0 +1,21 @@
+input {
+	width: 5em;
+}
+
+select {
+	width: 6.25em;
+}
+
+.smaller-text {
+	font-size: 0.9em;
+}
+
+.flex {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+}
+
+.row {
+	margin-bottom: 0.2em;
+}
