@@ -67,12 +67,12 @@
 
 	// Devuelve en formato de texto un número de dos dígitos
 	function twoDigitNumber(number) {
-		if (isNaN(number) || number < 1 || number > 99) return "00";
+		if (isNaN(number) || number < 1) return "00";
 
-		if (number < 10)
-			return "0" + number.toString();
-
-		else
-			return number.toString();
+		if (number < 10) {
+			return `0${number}`;
+		} else {
+			return `${number}`;
+		}
 	}
 })();
