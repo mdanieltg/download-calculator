@@ -5,74 +5,68 @@
 		selectSizeUnits = document.getElementById("size-units"),
 		divResult = document.getElementById("result");
 
-	document.getElementById("calculate").addEventListener("click", function(e) {
-		let downloadRate = simplifyDownloadRate(inputDownloadRate.value, selectRateUnits.value),
-			downloadSize = simplifyDownloadSize(inputDownloadSize.value, selectSizeUnits.value) * 8;
+	document.getElementById("calculate").addEventListener("click", function (e) {
+		const seconds = calculateDownloadTime(inputDownloadSize.value,
+			selectSizeUnits.value,
+			inputDownloadRate.value,
+			selectRateUnits.value);
 
-		let result = secondsToHuman(Math.floor(downloadSize / downloadRate));
+		const time = secondsToHuman(seconds);
 
-		divResult.innerHTML = result;
+		divResult.innerText = time;
 	});
 
-	// Recursividad. Convierte cualquier tasa de descarga a Mbit/s
-	function simplifyDownloadRate(size, rate, mode = 0) {
-		switch (rate) {
-			case  "bps": mode = -2; break;
-			case "kbps": mode = -1; break;
-			case "mbps": mode =  0; break;
-			case "gbps": mode =  1; break;
+	// Calcula los segudos que tarda en descargar la información
+	function calculateDownloadTime(dataSize, dataUnit, rateSize, rateUnit) {
+		let rate;
+		switch (rateUnit) {
+			case "kbps": rate = rateSize * 1000; break;
+			case "mbps": rate = rateSize * 1000 * 1000; break;
+			case "gbps": rate = rateSize * 1000 * 1000 * 1000; break;
+			default: rate = rateSize * 1;
 		}
 
-		if (mode > 0)
-			size = simplifyDownloadRate(size * 10, "", mode - 1);
+		const bits = convertToBits(dataSize, dataUnit);
 
-		else if (mode < 0)
-			size = simplifyDownloadRate(size / 10, "", mode + 1)
-
-		return size;
+		return Math.floor(bits / rate);
 	}
 
-	// Recursividad. Convierte cualquier tamaño de archivo a MiB
-	function simplifyDownloadSize(size, unit, mode = 0) {
+	// Convierte un dato a su equivalente en bits
+	function convertToBits(size, unit) {
 		switch (unit) {
-			case "kib": return simplifyDownloadSize(size / 8, "kb"); break;
-			case "mib": return simplifyDownloadSize(size / 8, "mb"); break;
-			case "gib": return simplifyDownloadSize(size / 8, "gb"); break;
+			case "kib": return size * 8 * 1024;
+			case "mib": return size * 8 * 1024 * 1024;
+			case "gib": return size * 8 * 1024 * 1024 * 1024;
 
-			case "b":	mode = -2; break;
-			case "kb":	mode = -1; break;
-			case "mb":	mode =  0; break;
-			case "gb":	mode =  1; break;
+			case "kb": return size * 8 * 1000;
+			case "mb": return size * 8 * 1000 * 1000;
+			case "gb": return size * 8 * 1000 * 1000 * 1000;
+
+			default: return size * 8 * 1;
 		}
-
-		if (mode > 0)
-			size = simplifyDownloadSize(size * 1024, "", mode - 1);
-
-		else if (mode < 0)
-			size = simplifyDownloadSize(size / 1024, "", mode + 1)
-
-		return size;
 	}
 
 	// Convierte los segundos a formato 00:00:00
 	function secondsToHuman(seconds) {
-		if (isNaN(seconds) || seconds < 0) return null;
+		if (isNaN(seconds) || seconds < 0) {
+			return null;
+		}
 
 		let hours = twoDigitNumber(Math.floor(seconds / 3600));
 		let minutes = twoDigitNumber(Math.floor(seconds / 60 % 60));
 		seconds = twoDigitNumber(seconds % 60);
 
-		return hours + ":" + minutes + ":" + seconds;
+		return `${hours}:${minutes}:${seconds}`;
 	}
 
 	// Devuelve en formato de texto un número de dos dígitos
 	function twoDigitNumber(number) {
-		if (isNaN(number) || number < 1 || number > 99) return "00";
+		if (isNaN(number) || number < 1) return "00";
 
-		if (number < 10)
-			return "0" + number.toString();
-
-		else
-			return number.toString();
+		if (number < 10) {
+			return `0${number}`;
+		} else {
+			return `${number}`;
+		}
 	}
 })();
