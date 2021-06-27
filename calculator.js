@@ -56,13 +56,15 @@
 
 	// Convierte los segundos a formato 00:00:00
 	function secondsToHuman(seconds) {
-		if (isNaN(seconds) || seconds < 0) return null;
+		if (isNaN(seconds) || seconds < 0) {
+			return null;
+		}
 
 		let hours = twoDigitNumber(Math.floor(seconds / 3600));
 		let minutes = twoDigitNumber(Math.floor(seconds / 60 % 60));
 		seconds = twoDigitNumber(seconds % 60);
 
-		return hours + ":" + minutes + ":" + seconds;
+		return `${hours}:${minutes}:${seconds}`;
 	}
 
 	// Devuelve en formato de texto un número de dos dígitos
