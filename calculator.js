@@ -23,7 +23,7 @@
 			case "kbps": rate = rateSize * 1000; break;
 			case "mbps": rate = rateSize * 1000 * 1000; break;
 			case "gbps": rate = rateSize * 1000 * 1000 * 1000; break;
-			default: rate = rateSize * 1;
+			default    : rate = rateSize * 1;
 		}
 
 		const bits = convertToBits(dataSize, dataUnit);
@@ -38,11 +38,11 @@
 			case "mib": return size * 8 * 1024 * 1024;
 			case "gib": return size * 8 * 1024 * 1024 * 1024;
 
-			case "kb": return size * 8 * 1000;
-			case "mb": return size * 8 * 1000 * 1000;
-			case "gb": return size * 8 * 1000 * 1000 * 1000;
+			case "kb" : return size * 8 * 1000;
+			case "mb" : return size * 8 * 1000 * 1000;
+			case "gb" : return size * 8 * 1000 * 1000 * 1000;
 
-			default: return size * 8 * 1;
+			default   : return size * 8 * 1;
 		}
 	}
 
@@ -61,7 +61,9 @@
 
 	// Devuelve en formato de texto un número de dos dígitos
 	function twoDigitNumber(number) {
-		if (isNaN(number) || number < 1) return "00";
+		if (isNaN(number) || number < 1) {
+			return "00";
+		}
 
 		if (number < 10) {
 			return `0${number}`;
