@@ -3,7 +3,7 @@
 		inputDownloadSize = document.getElementById("download-size"),
 		selectRateUnits = document.getElementById("rate-units"),
 		selectSizeUnits = document.getElementById("size-units"),
-		divResult = document.getElementById("result");
+		spanResult = document.getElementById("result");
 
 	document.getElementById("calculate").addEventListener("click", function (e) {
 		const seconds = calculateDownloadTime(inputDownloadSize.value,
@@ -13,7 +13,7 @@
 
 		const time = secondsToHuman(seconds);
 
-		divResult.innerText = time;
+		spanResult.innerText = time;
 	});
 
 	// Calcula los segudos que tarda en descargar la información
