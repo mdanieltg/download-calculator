@@ -1,11 +1,11 @@
-(function () {
+(() => {
 	let inputDownloadRate = document.getElementById("download-rate"),
 		inputDownloadSize = document.getElementById("download-size"),
 		selectRateUnits = document.getElementById("rate-units"),
 		selectSizeUnits = document.getElementById("size-units"),
-		divResult = document.getElementById("result");
+		spanResult = document.getElementById("result");
 
-	document.getElementById("calculate").addEventListener("click", function (e) {
+	document.getElementById("calculate").addEventListener("click", () => {
 		const seconds = calculateDownloadTime(inputDownloadSize.value,
 			selectSizeUnits.value,
 			inputDownloadRate.value,
@@ -13,7 +13,7 @@
 
 		const time = secondsToHuman(seconds);
 
-		divResult.innerText = time;
+		spanResult.innerText = time;
 	});
 
 	// Calcula los segudos que tarda en descargar la información
@@ -23,7 +23,7 @@
 			case "kbps": rate = rateSize * 1000; break;
 			case "mbps": rate = rateSize * 1000 * 1000; break;
 			case "gbps": rate = rateSize * 1000 * 1000 * 1000; break;
-			default: rate = rateSize * 1;
+			default    : rate = rateSize * 1;
 		}
 
 		const bits = convertToBits(dataSize, dataUnit);
@@ -38,11 +38,11 @@
 			case "mib": return size * 8 * 1024 * 1024;
 			case "gib": return size * 8 * 1024 * 1024 * 1024;
 
-			case "kb": return size * 8 * 1000;
-			case "mb": return size * 8 * 1000 * 1000;
-			case "gb": return size * 8 * 1000 * 1000 * 1000;
+			case "kb" : return size * 8 * 1000;
+			case "mb" : return size * 8 * 1000 * 1000;
+			case "gb" : return size * 8 * 1000 * 1000 * 1000;
 
-			default: return size * 8 * 1;
+			default   : return size * 8 * 1;
 		}
 	}
 
@@ -52,21 +52,21 @@
 			return null;
 		}
 
-		let hours = twoDigitNumber(Math.floor(seconds / 3600));
-		let minutes = twoDigitNumber(Math.floor(seconds / 60 % 60));
-		seconds = twoDigitNumber(seconds % 60);
+		const hours = twoDigitNumber(Math.floor(seconds / 3600));
+		const minutes = twoDigitNumber(Math.floor(seconds / 60 % 60));
+		const remainingSeconds = twoDigitNumber(seconds % 60);
 
-		return `${hours}:${minutes}:${seconds}`;
+		return `${hours}:${minutes}:${remainingSeconds}`;
 	}
 
 	// Devuelve en formato de texto un número de dos dígitos
 	function twoDigitNumber(number) {
-		if (isNaN(number) || number < 1) return "00";
-
-		if (number < 10) {
-			return `0${number}`;
-		} else {
-			return `${number}`;
+		if (isNaN(number) || number < 1) {
+			return "00";
 		}
+
+		return number < 10
+			? `0${number}`
+			: `${number}`;
 	}
 })();
