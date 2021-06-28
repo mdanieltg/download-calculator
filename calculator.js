@@ -1,11 +1,11 @@
-(function () {
+(() => {
 	let inputDownloadRate = document.getElementById("download-rate"),
 		inputDownloadSize = document.getElementById("download-size"),
 		selectRateUnits = document.getElementById("rate-units"),
 		selectSizeUnits = document.getElementById("size-units"),
 		spanResult = document.getElementById("result");
 
-	document.getElementById("calculate").addEventListener("click", function (e) {
+	document.getElementById("calculate").addEventListener("click", () => {
 		const seconds = calculateDownloadTime(inputDownloadSize.value,
 			selectSizeUnits.value,
 			inputDownloadRate.value,
@@ -52,11 +52,11 @@
 			return null;
 		}
 
-		let hours = twoDigitNumber(Math.floor(seconds / 3600));
-		let minutes = twoDigitNumber(Math.floor(seconds / 60 % 60));
-		seconds = twoDigitNumber(seconds % 60);
+		const hours = twoDigitNumber(Math.floor(seconds / 3600));
+		const minutes = twoDigitNumber(Math.floor(seconds / 60 % 60));
+		const remainingSeconds = twoDigitNumber(seconds % 60);
 
-		return `${hours}:${minutes}:${seconds}`;
+		return `${hours}:${minutes}:${remainingSeconds}`;
 	}
 
 	// Devuelve en formato de texto un número de dos dígitos
@@ -65,10 +65,8 @@
 			return "00";
 		}
 
-		if (number < 10) {
-			return `0${number}`;
-		} else {
-			return `${number}`;
-		}
+		return number < 10
+			? `0${number}`
+			: `${number}`;
 	}
 })();
